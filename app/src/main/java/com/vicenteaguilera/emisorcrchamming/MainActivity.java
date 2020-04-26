@@ -8,16 +8,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     String dato,divisior,tramaHammingCrc;
     boolean par_o_impar;
-
+    TextView textView_decimal;
     EditText editText_entrada,editText_divisor,editText_salida;
     RadioButton radioButton_par,radioButton_impar;
-    Button button_generar;
+    Button button_generar,button_limpiar;
+    RadioGroup radioGroup;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -27,26 +30,45 @@ public class MainActivity extends AppCompatActivity {
         editText_divisor = findViewById(R.id.editText_divisor);
         editText_salida = findViewById(R.id.editText_trama);
         radioButton_par = findViewById(R.id.radioButton_par);
+        textView_decimal = findViewById(R.id.textView_decimal);
+
         radioButton_impar = findViewById(R.id.radioButton_impar);
         button_generar = findViewById(R.id.button_generar);
+        button_limpiar = findViewById(R.id.button_limpiar);
+        radioGroup = findViewById(R.id.radioGroup);
+
+        button_limpiar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                editText_entrada.setText("");
+                editText_divisor.setText("");
+                editText_salida.setText("");
+                radioGroup.clearCheck();
+                textView_decimal.setText("");
+
+            }
+        });
 
         button_generar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
                 dato = editText_entrada.getText().toString();
-                if(evaluarEntrada(dato))
+                divisior=editText_divisor.getText().toString();
+                if(evaluarEntrada(dato) )
                 {
                     if(isNumeric(editText_divisor.getText().toString()))
                     {
-                        if(isBinario(Integer.parseInt(editText_divisor.getText().toString())))
+                        if(isBinario(Integer.parseInt(divisior)) && Integer.parseInt(divisior)!=0)
                         {
-                            divisior=editText_divisor.getText().toString();
+
                             if(radioButton_par.isChecked())
                             {
                                 Log.e("b",convertToBinario((dato.charAt(0)))+" "+ ((int)dato.charAt(0)));
                                 par_o_impar=true;
-                                CRC(Hamming((convertToBinario(dato.charAt(0)))));
+                                CRC(Hamming((convertToBinario(dato.charAt(0)))));//
+                                textView_decimal.setText(((int)dato.charAt(0))+"");
                             }
                             else if(radioButton_impar.isChecked())
                             {
@@ -61,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         else
                         {
-                            Toast.makeText(MainActivity.this,"No es un binario el divisor",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this,"No es un binario el divisor o no es diferente de 0",Toast.LENGTH_SHORT).show();
                         }
                     }
                     else
@@ -119,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                 if(i==0 && j==0)
                 {
                     //vector de 5
-                    String paridades[] = {hammingTrama[2],hammingTrama[4],hammingTrama[6],hammingTrama[8],hammingTrama[10]};
+                    String paridades = hammingTrama[2]+hammingTrama[4]+hammingTrama[6]+hammingTrama[8]+hammingTrama[10];
                     hammingTrama[0]=String.valueOf(Paridades(paridades));
                     Log.d("b","vector 1");
                     Log.d("b",hammingTrama[0]+"");
@@ -128,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                 else if(i==0 && j==1)
                 {
                     //vector de 5
-                    String paridades[] = {hammingTrama[2],hammingTrama[5],hammingTrama[6],hammingTrama[9],hammingTrama[10]};
+                    String paridades = hammingTrama[2]+hammingTrama[5]+hammingTrama[6]+hammingTrama[9]+hammingTrama[10];
                     hammingTrama[1]=String.valueOf(Paridades(paridades));
                     Log.d("b","vector 2");
                     Log.d("b",hammingTrama[1]+"");
@@ -136,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                 else if(i==1 && j==0)
                 {
                     //vector de 4
-                    String paridades[] = {hammingTrama[4],hammingTrama[5],hammingTrama[6],hammingTrama[11]};
+                    String paridades = hammingTrama[4]+hammingTrama[5]+hammingTrama[6]+hammingTrama[11];
                     hammingTrama[3]=String.valueOf(Paridades(paridades));
                     Log.d("b","vector 3");
                     Log.d("b",hammingTrama[3]+"");
@@ -144,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                 else
                 {
                     //vector de 4
-                    String paridades[] = {hammingTrama[8],hammingTrama[9],hammingTrama[10],hammingTrama[11]};
+                    String paridades = hammingTrama[8]+hammingTrama[9]+hammingTrama[10]+hammingTrama[11];
                     hammingTrama[7]=String.valueOf(Paridades(paridades));
                     Log.d("b","vector 4");
                     Log.d("b",hammingTrama[7]+"");
@@ -230,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
         if(dec>=2)
         {
             dato+="1";
-            dec-=128;
+            dec-=2;
         }
         else
         {
@@ -247,15 +269,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return dato;
     }
-    private int convertToDecimal(int dec)
-    {
-        if(dec<2){
-            return dec;
-        }
-        else {
-            return 0;// (dec % 2 + (10 * convertToBinario(dec / 2)));
-        }
-    }
+
     private boolean isNumeric(String divisor)
     {
         try {
@@ -272,17 +286,18 @@ public class MainActivity extends AppCompatActivity {
     {
             return (entrada.length()==1);
     }
-    private int Paridades(String vec[])
+    private int Paridades(String vec)
     {
         int cant_unos=0;
         int ret0_1;
-        for(int i=0;i<vec.length;i++)
+        for(int i=0;i<vec.length();i++)
         {
-            if(vec[i].equals("1"))
+            if(vec.charAt(i)=='1')
             {
                 cant_unos++;
             }
         }
+        Log.e("b",vec+"unos="+cant_unos);
         if(par_o_impar)
         {
             ret0_1=(cant_unos%2==0)?0:1;
