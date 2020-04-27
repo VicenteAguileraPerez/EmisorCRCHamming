@@ -3,7 +3,7 @@ This project simulates the process of the  transmitter a byte of information int
 
 ## 1. Examples
 ### 1.   even parity (paridad par)
-<p align="center"><img src="imagenes/ejemplo.jpg" /></p>
+<img src="imagenes/ejemplo.jpg" />
 ### 2.   odd parity (paridad impar)
 ![](imagenes/ejemplo2.jpg)
 
