@@ -6,3 +6,4 @@ This project simulates the process of the  transmitter a byte of information int
 <p align="center"><img src="imagenes/ejemplo.jpg" /></p>
 ### 2.   odd parity (paridad impar)
 ![](imagenes/ejemplo2.jpg)
+
