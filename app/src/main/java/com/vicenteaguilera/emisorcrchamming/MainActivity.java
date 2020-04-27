@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                                 par_o_impar=false;
                                 Log.e("b",convertToBinario((dato.charAt(0)))+"");
                                 CRC(Hamming((convertToBinario(dato.charAt(0)))));
+                                textView_decimal.setText("Unicode: "+((int)dato.charAt(0))+"");
                             }
                             else
                             {
