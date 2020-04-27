@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                                 Log.e("b",convertToBinario((dato.charAt(0)))+" "+ ((int)dato.charAt(0)));
                                 par_o_impar=true;
                                 CRC(Hamming((convertToBinario(dato.charAt(0)))));//
-                                textView_decimal.setText(((int)dato.charAt(0))+"");
+                                textView_decimal.setText("Unicode: "+((int)dato.charAt(0))+"");
                             }
                             else if(radioButton_impar.isChecked())
                             {
