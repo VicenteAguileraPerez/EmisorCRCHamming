@@ -3,6 +3,6 @@ This project simulates the process of the  transmitter a byte of information int
 
 ## 1. Examples
 1.   even parity (paridad par)
-![A cute kitten](http://placekitten.com/200/300?style=centerme)
+![](http://placekitten.com/200/300?style=centerme)
 2.   odd parity (paridad impar)
-![A cute kitten](http://placekitten.com/200/300?style=centerme)
+![](http://placekitten.com/200/300?style=centerme)
